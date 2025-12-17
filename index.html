@@ -82,18 +82,22 @@
     <section id="reveal-stage" class="stage hidden">
         <div class="content">
             <h1 class="glow-text">Happy Birthday Narmatha!</h1>
-            <div class="photo-frame">
-                <img id="final-photo" src="assets/img/7.jpg" alt="Birthday Photo">
+            <div id="photo-deck" class="photo-deck">
+                <!-- Stacked in reverse order of display so last in DOM is on top? Or absolute positioning z-index managed. 
+                     Let's use Array order in JS to manage z-index or standard stacking context (last is top).
+                     We want Main Photo on TOP. So it should be last.
+                -->
+                <div class="card" style="background-image: url('assets/img/5.jpg')"></div>
+                <div class="card" style="background-image: url('assets/img/4.jpg')"></div>
+                <div class="card" style="background-image: url('assets/img/3.jpg')"></div>
+                <div class="card" style="background-image: url('assets/img/2.jpg')"></div>
+                <div class="card" style="background-image: url('assets/img/1.jpg')"></div>
+                <div class="card active" style="background-image: url('assets/img/7.jpg')">
+                    <div class="caption">Narmatha</div>
+                </div>
             </div>
+            <p class="instruction-text">Swipe / Drag the photos</p>
             <p class="message">"let's start us again new"</p>
-
-            <div class="memory-gallery">
-                <img src="assets/img/1.jpg" class="gallery-item" style="animation-delay: 0.2s">
-                <img src="assets/img/2.jpg" class="gallery-item" style="animation-delay: 0.4s">
-                <img src="assets/img/3.jpg" class="gallery-item" style="animation-delay: 0.6s">
-                <img src="assets/img/4.jpg" class="gallery-item" style="animation-delay: 0.8s">
-                <img src="assets/img/5.jpg" class="gallery-item" style="animation-delay: 1.0s">
-            </div>
         </div>
     </section>
 

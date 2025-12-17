@@ -66,7 +66,10 @@ function initStage(index) {
     if (stageId === 'countdown-stage') checkCountdown();
     if (stageId === 'cake-stage') startCandleInteraction();
     if (stageId === 'puzzle-stage') startPuzzle();
-    if (stageId === 'reveal-stage') startFireworksShow();
+    if (stageId === 'reveal-stage') {
+        startFireworksShow();
+        initPhotoDeck();
+    }
 }
 
 // --- Stage 1: Welcome ---
@@ -396,6 +399,7 @@ function startPuzzle() {
     const size = 3;
     let tiles = [];
     let state = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let moveCount = 0;
 
     grid.innerHTML = '';
     for (let i = 0; i < size * size; i++) {
@@ -427,6 +431,15 @@ function startPuzzle() {
 
         if ((Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) === 1) {
             [state[posIndex], state[emptyPos]] = [state[emptyPos], state[posIndex]];
+
+            moveCount++;
+            if (moveCount >= 5) {
+                state = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+                render();
+                setTimeout(() => { nextStage(); }, 1000);
+                return;
+            }
+
             render();
             checkWin();
         }
@@ -451,7 +464,73 @@ function startPuzzle() {
         [state[randomNeighbor], state[emptyPos]] = [state[emptyPos], state[randomNeighbor]];
     }
 
+
     render();
+}
+
+// --- Photo Deck Interaction ---
+function initPhotoDeck() {
+    const cards = document.querySelectorAll('.card');
+    let currentIndex = cards.length - 1; // Start from top (last element)
+
+    function setupCard(card) {
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+
+        card.addEventListener('mousedown', startDrag);
+        card.addEventListener('touchstart', startDrag);
+
+        function startDrag(e) {
+            isDragging = true;
+            startX = getClientX(e);
+            card.style.transition = 'none';
+
+            document.addEventListener('mousemove', moveDrag);
+            document.addEventListener('touchmove', moveDrag);
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+        }
+
+        function moveDrag(e) {
+            if (!isDragging) return;
+            currentX = getClientX(e) - startX;
+            const rotation = currentX * 0.1;
+            card.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+        }
+
+        function endDrag(e) {
+            isDragging = false;
+            card.style.transition = 'transform 0.3s, opacity 0.3s';
+
+            document.removeEventListener('mousemove', moveDrag);
+            document.removeEventListener('touchmove', moveDrag);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchend', endDrag);
+
+            const threshold = 100;
+            if (Math.abs(currentX) > threshold) {
+                // Fly off
+                const direction = currentX > 0 ? 1 : -1;
+                card.style.transform = `translateX(${direction * 500}px) rotate(${direction * 30}deg)`;
+                card.style.opacity = '0';
+
+                setTimeout(() => {
+                    card.style.display = 'none';
+                    currentIndex--;
+                }, 300);
+            } else {
+                // Reset
+                card.style.transform = 'translateX(0) rotate(0deg)';
+            }
+        }
+
+        function getClientX(e) {
+            return e.touches ? e.touches[0].clientX : e.clientX;
+        }
+    }
+
+    cards.forEach(card => setupCard(card));
 }
 
 function triggerFinalConfetti() {
