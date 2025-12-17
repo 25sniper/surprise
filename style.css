@@ -1,0 +1,408 @@
+:root {
+    --primary: #ff69b4;
+    --secondary: #9b59b6;
+    --accent: #f1c40f;
+    --dark: #2c3e50;
+    --light: #ecf0f1;
+    --font-heading: 'Dancing Script', cursive;
+    --font-body: 'Outfit', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--dark);
+    color: var(--light);
+    font-family: var(--font-body);
+    overflow: hidden;
+    /* Prevent scrolling during stages */
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-in-out;
+    z-index: 1;
+}
+
+.stage.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 10;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h1,
+h2 {
+    font-family: var(--font-heading);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 3.5rem;
+    color: var(--primary);
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: var(--secondary);
+}
+
+.content {
+    text-align: center;
+    z-index: 10;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.btn {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: var(--font-body);
+    font-weight: 700;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+}
+
+/* Balloon Stage */
+#balloon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 5;
+}
+
+/* Realistic Balloon */
+.balloon {
+    position: absolute;
+    bottom: -120px;
+    width: 80px;
+    height: 100px;
+    background-color: var(--primary);
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    cursor: pointer;
+    animation: floatUp 10s linear infinite;
+    box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+    transform-origin: center bottom;
+}
+
+/* 3D Shine */
+.balloon::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 20px;
+    height: 35px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
+    transform: rotate(45deg);
+}
+
+/* String */
+.balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 60px;
+    background: rgba(200, 200, 200, 0.8);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateY(-30vh) translateX(20px) rotate(5deg);
+    }
+
+    50% {
+        transform: translateY(-60vh) translateX(-20px) rotate(-5deg);
+    }
+
+    75% {
+        transform: translateY(-90vh) translateX(20px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(-120vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+
+/* Countdown Stage */
+.timer {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-unit span {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.time-unit label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Cake Stage */
+.cake-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.cake {
+    position: relative;
+    width: 250px;
+    height: 200px;
+}
+
+.plate {
+    width: 270px;
+    height: 110px;
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    box-shadow: 0 2px 0 #b3b3b3, 0 4px 0 #b3b3b3;
+}
+
+.layer {
+    position: absolute;
+    display: block;
+    width: 250px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #553c2a;
+    /* Chocolate */
+    box-shadow: 0 2px 0px #6a4b35, 0 5px 0px #332419;
+}
+
+.layer-bottom {
+    top: 75px;
+    z-index: 1;
+}
+
+.layer-middle {
+    top: 40px;
+    z-index: 2;
+}
+
+.layer-top {
+    top: 5px;
+    z-index: 3;
+    background-color: #7b583f;
+}
+
+.icing {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    background-color: #fce4ec;
+    width: 250px;
+    height: 100px;
+    border-radius: 50%;
+    z-index: 4;
+}
+
+.candle {
+    background-color: #fff;
+    width: 15px;
+    height: 50px;
+    border-radius: 8px / 4px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin-left: -7.5px;
+    z-index: 10;
+    background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff0000 5px, #ff0000 10px);
+}
+
+.flame {
+    position: absolute;
+    background-color: orange;
+    width: 15px;
+    height: 35px;
+    border-radius: 10px 10px 4px 4px;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px gold, 0 0 20px orangered;
+    transform-origin: bottom center;
+    animation: flicker 1s infinite alternate;
+}
+
+.flame.out {
+    display: none;
+}
+
+@keyframes flicker {
+    0% {
+        transform: translateX(-50%) skewX(5deg) scaleY(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-50%) skewX(-5deg) scaleY(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Puzzle Stage */
+.puzzle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    width: 300px;
+    height: 300px;
+    background: #444;
+    border: 5px solid #fff;
+    margin: 0 auto;
+}
+
+.puzzle-piece {
+    background-size: 300px 300px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-image: url('assets/img/7.jpg');
+}
+
+.puzzle-piece.empty {
+    background: transparent !important;
+    cursor: default;
+}
+
+/* Reveal Stage */
+.message {
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    color: var(--accent);
+    margin-top: 20px;
+}
+
+.photo-frame {
+    margin: 20px auto;
+    padding: 10px;
+    background: white;
+    transform: rotate(-3deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    max-width: 80%;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Gallery */
+.memory-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    max-width: 800px;
+}
+
+.gallery-item {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: popIn 0.5s forwards ease-back;
+    transform: rotate(var(--r, 0deg));
+}
+
+.gallery-item:nth-child(odd) { --r: 3deg; }
+.gallery-item:nth-child(even) { --r: -2deg; }
+
+@keyframes popIn {
+    from { transform: scale(0) rotate(0deg); opacity: 0; }
+    to { transform: scale(1) rotate(var(--r)); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .puzzle-grid {
+        width: 240px;
+        height: 240px;
+    }
+
+    .puzzle-piece {
+        background-size: 240px 240px;
+    }
+    
+    .gallery-item {
+        width: 70px;
+        height: 70px;
+    }
+}
