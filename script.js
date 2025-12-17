@@ -1,8 +1,8 @@
 // Configuration
 const CONFIG = {
-    name: "Narmadha",
+    name: "Narmatha",
     date: "2025-12-18T00:00:00", // Start of the birthday
-    photoUrl: "assets/img/7.jpg", 
+    photoUrl: "assets/img/7.jpg",
     puzzleImage: "assets/img/7.jpg"
 };
 
